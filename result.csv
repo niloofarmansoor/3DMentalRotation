@@ -1,0 +1,6 @@
+Stimuli Order File 
+The order of stimuli shown
+Task Type,#,Stimuli Number,Image1,Image2,Image3,Image4,Checkbox1,Checkbox2,Checkbox3,Checkbox4,StartTime
+TestTask,1,1,Correct1,Correct2,Incorrect1,Incorrect2,false,false,false,false,09:50:21.658
+TestTask,2,2,Incorrect2,Correct2,Correct1,Incorrect1,false,false,false,false,09:50:22.029
+Task,1,10,Correct1,Incorrect2,Correct2,Incorrect1,

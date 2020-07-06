@@ -77,14 +77,14 @@ public class FirstPage extends JFrame {
 		JButton nextButton2 = new JButton("Start Experiment");
 		
 		//Generate a new task
-		JButton nextButton3 = new JButton("Next");
+		JButton EXIT = new JButton("Exit");
+		
+		//Show correct answers button
 		
 		//populate stimuli number list
 		for (int k = 0; k < 46; k++) {
 			stimuli.add(k+2);
 		}
-		
-		
 			
 		//add behavior
 		startButton.addActionListener(new ActionListener() {
@@ -115,8 +115,6 @@ public class FirstPage extends JFrame {
 				}
 				
 				if (countTest == 0) {
-
-					System.out.println("HERE!");
 					
 					empty.setVisible(true);
 					
@@ -142,7 +140,6 @@ public class FirstPage extends JFrame {
 						
 					countTest--;
 					
-					System.out.println(countTest);
 				}
 
 					
@@ -185,6 +182,8 @@ public class FirstPage extends JFrame {
 					}
 					
 					c.add(finalPage, BorderLayout.CENTER);
+					c.add(EXIT, BorderLayout.SOUTH);
+
 					nextButton2.setVisible(false);
 
 					
@@ -202,11 +201,18 @@ public class FirstPage extends JFrame {
 					c.add(taskPage, BorderLayout.CENTER);
 					order++;;
 					numberOfTasksToDo--;
-					
-					//System.out.println(countTest);
 				}
 					
 				}
+			
+		});
+		
+		EXIT.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
 			
 		});
 		

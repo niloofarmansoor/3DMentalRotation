@@ -1,3 +1,4 @@
+package MainPackage;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Timestamp;
@@ -18,7 +19,7 @@ public class FinalPage extends JPanel {
 
 		setLayout(layout);
 
-		Font font = new Font("Helvetica", Font.PLAIN, 22);
+		Font font = new Font("Helvetica", Font.PLAIN, 26);
 	    
 	    JLabel label = new JLabel("<html> <center> Thank you for participating!</center> </html>");
 

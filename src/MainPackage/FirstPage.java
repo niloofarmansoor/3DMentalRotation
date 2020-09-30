@@ -1,3 +1,4 @@
+package MainPackage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -12,6 +13,7 @@ import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class FirstPage extends JFrame {
@@ -19,7 +21,7 @@ public class FirstPage extends JFrame {
 	//private TestTask testTask;
 	
 	//for test tasks
-	int countTest = 2;
+	int countTest = 5;
 	int count = 0;
 	
 	//for taks
@@ -33,6 +35,8 @@ public class FirstPage extends JFrame {
     Date date = new Date();
     ArrayList<Integer> stimuli = new ArrayList<Integer>();
 	
+	int proceedToNextTask = 2;
+    
 	public FirstPage(String title, StimuliObject[] listOfObjects) throws IOException {
 		
 		super(title);
@@ -82,8 +86,8 @@ public class FirstPage extends JFrame {
 		//Show correct answers button
 		
 		//populate stimuli number list
-		for (int k = 0; k < 46; k++) {
-			stimuli.add(k+2);
+		for (int k = 0; k < 43; k++) {
+			stimuli.add(k+5);
 		}
 			
 		//add behavior
@@ -100,6 +104,8 @@ public class FirstPage extends JFrame {
 			}	
 		});
 		
+
+		
 		nextButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -108,37 +114,54 @@ public class FirstPage extends JFrame {
 				empty.setVisible(false);
 				guidePanel.setVisible(false);
 				
-				if (taskPage != null) {
-					
-					taskPage.saveCheckBoxStates();
-					taskPage.saveTimeStamps(startTimeStamp);
+				//at the start of each task starting from second task,
+				//see how many checkboxes were selected in the previous task
+				if (count > 0) {
+					proceedToNextTask = TaskPage.countCheckedCheckboxes(taskPage);
 				}
 				
-				if (countTest == 0) {
-					
-					empty.setVisible(true);
-					
-					taskPage.setVisible(false);
-					taskPage = null;
-
-					nextButton.setVisible(false);
-					
-					c.add(pageBeforeTask, BorderLayout.CENTER);
-					c.add(nextButton2, BorderLayout.SOUTH);
-					
-				}else {
+				//if 2 were selected, generate new tasks.
+				if (proceedToNextTask == 2) {
 					
 					if (taskPage != null) {
-						taskPage.setVisible(false);
+						taskPage.saveCheckBoxStates();
+						taskPage.saveTimeStamps(startTimeStamp);
 					}
+				
+					if (countTest == 0) {
 						
-					taskPage = new TaskPage(listOfObjects, count, "TestTask", count+1);		
-					startTimeStamp = taskPage.saveGenerateTime();
+						empty.setVisible(true);
 						
-					c.add(taskPage, BorderLayout.CENTER);
-					count++;
+						taskPage.setVisible(false);
+						taskPage = null;
+	
+						nextButton.setVisible(false);
 						
-					countTest--;
+						c.add(pageBeforeTask, BorderLayout.CENTER);
+						c.add(nextButton2, BorderLayout.SOUTH);
+						
+					}else {
+						
+						if (taskPage != null) {
+							taskPage.setVisible(false);
+						}
+							
+						taskPage = new TaskPage(listOfObjects, count, "TestTask", count+1);		
+						startTimeStamp = taskPage.saveGenerateTime();
+						
+						c.add(taskPage, BorderLayout.CENTER);
+												
+						count++;
+							
+						countTest--;
+						
+					}
+				} else { //if anything other than two was selected, don't go to next page.
+					
+					JOptionPane.showMessageDialog(null,
+						    "You must select two checkboxes that correspond with the two correct images.",
+						    "Warning",
+						    JOptionPane.WARNING_MESSAGE);
 					
 				}
 
@@ -146,6 +169,8 @@ public class FirstPage extends JFrame {
 				}
 				
 		});
+		
+		proceedToNextTask = 2;
 		
 		nextButton2.addActionListener(new ActionListener() {
 
@@ -156,53 +181,69 @@ public class FirstPage extends JFrame {
 				pageBeforeTask.setVisible(false);
 				nextButton2.setText("Next");
 				
-				if (taskPage != null) {
-					
-					taskPage.saveCheckBoxStates();
-					taskPage.saveTimeStamps(startTimeStamp);
+				if (order > 0) {
+					proceedToNextTask = TaskPage.countCheckedCheckboxes(taskPage);
 				}
 				
-				if (numberOfTasksToDo == 0) {
-
-					empty.setVisible(true);
-					
-					taskPage.setVisible(false);
-
-					FinalPage finalPage = new FinalPage();
-					
-					endTimeStamp = finalPage.saveGenerateTime();
-					
-					
-					ResultsFileMethods rfm = new ResultsFileMethods();
-					try {
-						rfm.saveFinalTime(endTimeStamp);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					c.add(finalPage, BorderLayout.CENTER);
-					c.add(EXIT, BorderLayout.SOUTH);
-
-					nextButton2.setVisible(false);
-
-					
-				}else {
+				if (proceedToNextTask == 2) {
 					
 					if (taskPage != null) {
-						taskPage.setVisible(false);
+						
+						taskPage.saveCheckBoxStates();
+						taskPage.saveTimeStamps(startTimeStamp);
+						
 					}
 					
-					stimuliNumber = PickARandomTask(stimuli);
-					
-					taskPage = new TaskPage(listOfObjects, stimuliNumber, "Task", order+1);		
-					startTimeStamp = taskPage.saveGenerateTime();
+					if (numberOfTasksToDo == 0) {
+	
+						empty.setVisible(true);
 						
-					c.add(taskPage, BorderLayout.CENTER);
-					order++;;
-					numberOfTasksToDo--;
-				}
+						taskPage.setVisible(false);
+	
+						FinalPage finalPage = new FinalPage();
+						
+						endTimeStamp = finalPage.saveGenerateTime();
+						
+						
+						ResultsFileMethods rfm = new ResultsFileMethods();
+						try {
+							rfm.saveFinalTime(endTimeStamp);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						c.add(finalPage, BorderLayout.CENTER);
+						c.add(EXIT, BorderLayout.SOUTH);
+	
+						nextButton2.setVisible(false);
+	
+						
+					}else {
+						
+						if (taskPage != null) {
+							taskPage.setVisible(false);
+						}
+						
+						stimuliNumber = PickARandomTask(stimuli);
+						
+						taskPage = new TaskPage(listOfObjects, stimuliNumber, "Task", order+1);		
+						startTimeStamp = taskPage.saveGenerateTime();
+							
+						c.add(taskPage, BorderLayout.CENTER);
+						order++;;
+						numberOfTasksToDo--;
+					}
+				} else { //if anything other than two was selected, don't go to next page.
 					
+					JOptionPane.showMessageDialog(null,
+						    "You must select two checkboxes that correspond with the two correct images.",
+						    "Warning",
+						    JOptionPane.WARNING_MESSAGE);
+					
+				}
+				
+				
 				}
 			
 		});

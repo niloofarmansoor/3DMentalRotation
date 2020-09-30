@@ -1,3 +1,4 @@
+package MainPackage;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -18,10 +19,10 @@ public class IntroPanel extends JPanel {
 
 		setLayout(layout);
 
-		Font font = new Font("Helvetica", Font.PLAIN, 22);
+		Font font = new Font("Helvetica", Font.PLAIN, 24);
 
 		JLabel welcomeMessage = new JLabel("Welcome");
-	    JLabel welcomeMessage2 = new JLabel("This experiment will take at most 20 minutes.");
+	    JLabel welcomeMessage2 = new JLabel("This experiment will take at most 15 minutes.");
 	    JLabel welcomeMessage3 = new JLabel("Click the start button to start the experiment.");
 	    
 	    welcomeMessage.setFont(font);

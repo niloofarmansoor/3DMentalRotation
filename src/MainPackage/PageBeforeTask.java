@@ -1,3 +1,4 @@
+package MainPackage;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -16,7 +17,7 @@ public class PageBeforeTask extends JPanel {
 
 		setLayout(layout);
 
-		Font font = new Font("Helvetica", Font.PLAIN, 22);
+		Font font = new Font("Helvetica", Font.PLAIN, 24);
 	    
 	    JLabel label = new JLabel("<html> <center> Now that you are familiar with the task, you can start the experiment whenever you are ready <br> <br>"
 	    		+ "by clicking the Start Experiment button. </center> </html>");

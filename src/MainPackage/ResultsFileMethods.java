@@ -1,3 +1,4 @@
+package MainPackage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -11,10 +12,12 @@ public class ResultsFileMethods {
 
 		FileWriter csvWriter = new FileWriter("result.csv");
 		
-		String data = "Stimuli Order File \n";
+		String line1 = "# Mental Rotation Task \n";
+		String line2 = "# Written by Niloofar Mansoor (niloofar@huskers.unl.edu)\n";
 		
 		BufferedWriter bw = new BufferedWriter(csvWriter);
-        bw.write(data);
+        bw.write(line1);
+        bw.write(line2);
         bw.close();
 		
 	}
@@ -28,7 +31,6 @@ public class ResultsFileMethods {
 		        	 FileWriter fileWriter = new FileWriter("result.csv", true);
 			         BufferedWriter bw = new BufferedWriter(fileWriter);
 			         
-			         fileWriter.append("The order of stimuli shown\n");
 			         fileWriter.append("Task Type");
 			         fileWriter.append(",");
 			         fileWriter.append("#");

@@ -1,4 +1,6 @@
+package MainPackage;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -27,10 +29,10 @@ import net.miginfocom.swing.MigLayout;
 
 public class TaskPage extends JPanel {
 	
-	JCheckBox checkbox1 = new JCheckBox("");
-    JCheckBox checkbox2 = new JCheckBox(""); 
-    JCheckBox checkbox3 = new JCheckBox(""); 
-    JCheckBox checkbox4 = new JCheckBox("");
+	JCheckBox checkbox1;
+	JCheckBox checkbox2;
+	JCheckBox checkbox3;
+	JCheckBox checkbox4;
 
     boolean somethingHidden = false;
 
@@ -62,9 +64,7 @@ public class TaskPage extends JPanel {
 	    empty5.setPreferredSize(new Dimension(250, 80));
 	    empty5.setBackground(Color.BLACK);
 	    
-	    JButton showResultsButton = new JButton("Show/Hide Correct Answers");
-        
-        
+	    JButton showResultsButton = new JButton("Hold button to show correct answers");
 		
 		//define images and checkboxes
 		ImageIcon originalImage;
@@ -75,11 +75,21 @@ public class TaskPage extends JPanel {
 		
 		JLabel ogImageLabel = new JLabel("<html><center>Original Image</center></html>");
 		JLabel text = new JLabel("<html><center>Check the check boxes under the two images that match the original image.</center></html>");
-		    
-        checkbox1.setBounds(50,50,50,50);   
-        checkbox2.setBounds(50,50,50,50);  
-        checkbox3.setBounds(50,50,50,50);    
-        checkbox4.setBounds(50,50,50,50);
+		
+		checkbox1 = new JCheckBox("");
+		checkbox2 = new JCheckBox(""); 
+		checkbox3 = new JCheckBox(""); 
+		checkbox4 = new JCheckBox("");
+
+		checkbox1.setBackground(Color.BLACK);
+		checkbox2.setBackground(Color.BLACK);
+		checkbox3.setBackground(Color.BLACK);
+		checkbox4.setBackground(Color.BLACK);
+		
+//        checkbox1.setBounds(50,50,50,50);   
+//        checkbox2.setBounds(50,50,50,50);  
+//        checkbox3.setBounds(50,50,50,50);    
+//        checkbox4.setBounds(50,50,50,50);
         
         //listOfObjects.
       	//getOriginalImage()
@@ -94,7 +104,6 @@ public class TaskPage extends JPanel {
         incorrectImage2 = new ImageIcon(listOfObjects[stimuliNumber].getIncorrect()[incorrectIndices[1]].getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH));
         correctImage1 = new ImageIcon(listOfObjects[stimuliNumber].getCorrect()[correctIndices[0]].getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH));
         correctImage2 = new ImageIcon(listOfObjects[stimuliNumber].getCorrect()[correctIndices[1]].getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH));
-                
 
         //shuffle the images!
         
@@ -310,18 +319,18 @@ public class TaskPage extends JPanel {
 	
 	public void saveTimeStamps(Timestamp startTime) {
 		
-	    SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss.SSS");
-		
-		 try {
-	         File f1 = new File("result.csv");
-	         if(f1.exists()) {
-	        	 FileWriter fileWriter = new FileWriter("result.csv", true);
-		         BufferedWriter bw = new BufferedWriter(fileWriter);
+	    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
+	    
+		try {
+	        File f1 = new File("result.csv");
+	        if(f1.exists()) {
+	        	FileWriter fileWriter = new FileWriter("result.csv", true);
+		        BufferedWriter bw = new BufferedWriter(fileWriter);
+		        
+		        bw.write(sdf.format(startTime));
+		        bw.write("\n");
 		         
-		         bw.write(sdf.format(startTime));
-		         bw.write("\n");
-		         
-		         bw.close();
+		        bw.close();
 		         
 	         }
 	      } catch(IOException e){
@@ -335,5 +344,25 @@ public class TaskPage extends JPanel {
 		Date date = new Date();
 		Timestamp startTimeStamp = new Timestamp(date.getTime());
 		return startTimeStamp;
+	}
+	
+	public static int countCheckedCheckboxes(final JPanel c) {
+		
+		int checkedItemsCount = 0; 
+		
+	    Component[] comps = c.getComponents();
+
+	    for (Component comp : comps) {
+
+	        if (comp instanceof JCheckBox) {
+	            JCheckBox box = (JCheckBox) comp;
+	            if (box.isSelected()) {
+	            	checkedItemsCount++;
+	            }
+	        }
+	    }
+
+	    return checkedItemsCount;
+
 	}
 }
